@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 VM_IP=192.168.77.1/24
 VM_NAME=dev
 IMG_TAG=hikki/devstack
-IMG_NAME=dev
+CONTAINER_NAME=dev-ubuntu
 
 echo "Setup Docker VM..."
 
@@ -21,8 +21,11 @@ docker build -t "$IMG_TAG" "$DIR"
 
 echo "Build Image... Success!"
 
-echo "Runnung Image..."
+echo "Create Container..."
 
-docker run -d --name="$IMG_NAME" "$IMG_TAG"
+docker rm -f $CONTAINER_NAME;
+docker create --name="$CONTAINER_NAME" "$IMG_TAG"
 
-echo "Runnung Image... Success!"
+echo "Create Container... Success!"
+
+docker start -a "$CONTAINER_NAME"
