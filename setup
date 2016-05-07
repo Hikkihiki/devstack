@@ -8,24 +8,20 @@ IMG_TAG=hikki/devstack
 CONTAINER_NAME=dev-ubuntu
 
 echo "Setup Docker VM..."
-
 docker-machine create -d virtualbox --virtualbox-hostonly-cidr "$VM_IP" "$VM_NAME"
 docker-machine start "$VM_NAME"
-
 echo "Setup Docker VM... Success!"
 
 echo "Build Image..."
-
 eval $(docker-machine env "$VM_NAME")
 docker build -t "$IMG_TAG" "$DIR"
-
 echo "Build Image... Success!"
 
 echo "Create Container..."
-
 docker rm -f $CONTAINER_NAME;
 docker create --name="$CONTAINER_NAME" "$IMG_TAG"
-
 echo "Create Container... Success!"
 
+echo "Start Container..."
 docker start -a "$CONTAINER_NAME"
+echo "Start Container... Success!"
