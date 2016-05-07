@@ -1,0 +1,28 @@
+#!/bin/bash
+#Assume you have bash, docker setup correctly
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VM_IP=192.168.77.1/24
+VM_NAME=dev
+IMG_TAG=hikki/devstack
+IMG_NAME=dev
+
+echo "Setup Docker VM..."
+
+docker-machine create -d virtualbox --virtualbox-hostonly-cidr "$VM_IP" "$VM_NAME"
+docker-machine start "$VM_NAME"
+
+echo "Setup Docker VM... Success!"
+
+echo "Build Image..."
+
+eval $(docker-machine env "$VM_NAME")
+docker build -t "$IMG_TAG" "$DIR"
+
+echo "Build Image... Success!"
+
+echo "Runnung Image..."
+
+docker run -d --name="$IMG_NAME" "$IMG_TAG"
+
+echo "Runnung Image... Success!"
