@@ -9,9 +9,14 @@ CONTAINER_NAME=dev
 $DIR/setup_vm
 eval $(docker-machine env "$VM_NAME")
 
+echo "Stop Container..."
+docker stop "$CONTAINER_NAME"
+echo "Stop Container... Success!"
+
+
 echo "Create Container..."
-docker rm -f $CONTAINER_NAME;
-docker create --name="$CONTAINER_NAME" -it "$IMG_TAG"
+docker rm $CONTAINER_NAME;
+docker create --name="$CONTAINER_NAME" -itp 3000:3000 "$IMG_TAG"
 echo "Create Container... Success!"
 
 echo "Start Container..."
