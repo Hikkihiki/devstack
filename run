@@ -2,17 +2,18 @@
 #Assume you have docker setup correctly
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VM_NAME=dev
 IMG_TAG=hikki/devstack
-CONTAINER_NAME=dev-ubuntu
+CONTAINER_NAME=dev
 
 $DIR/setup_vm
 eval $(docker-machine env "$VM_NAME")
 
 echo "Create Container..."
 docker rm -f $CONTAINER_NAME;
-docker create --name="$CONTAINER_NAME" "$IMG_TAG"
+docker create --name="$CONTAINER_NAME" -it "$IMG_TAG"
 echo "Create Container... Success!"
 
 echo "Start Container..."
-docker start -a "$CONTAINER_NAME"
+docker start "$CONTAINER_NAME"
 echo "Start Container... Success!"

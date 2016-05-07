@@ -2,16 +2,11 @@
 #Assume you have docker setup correctly
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VM_NAME=dev
 IMG_TAG=hikki/devstack
+CONTAINER_NAME=dev
 
 $DIR/setup_vm
 eval $(docker-machine env "$VM_NAME")
 
-echo "Build Image..."
-docker build -t "$IMG_TAG" "$DIR"
-echo "Build Image... Success!"
-
-echo "Pushing Image..."
-docker login
-docker push "$IMG_TAG"
-echo "Pushing Image... Success!"
+docker exec -it $VM_NAME bash
